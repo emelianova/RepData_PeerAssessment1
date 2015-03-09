@@ -5,7 +5,6 @@
 Note: this project is a clone of <<https://github.com/rdpeng/RepData_PeerAssessment1>>
 
 ```r
-knitr::opts_chunk$set(cache=F)
 Sys.setlocale("LC_TIME", "English")
 ```
 
@@ -35,24 +34,6 @@ hist(steps_pday_total, breaks=8, col="aliceblue", main="Total number of steps ta
 ```
 
 ![](PA1_template_files/figure-html/plot1-1.png) 
-
-```r
-dev.copy(png, "figure/plot1.png")
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
 3. Calculate and report the mean and median of the total number of steps taken per day
 
 ```r
@@ -86,24 +67,6 @@ plot(mytime, steps_pint_av, type="l", main="Average number of steps taken per in
 ```
 
 ![](PA1_template_files/figure-html/plot2-1.png) 
-
-```r
-dev.copy(png, "figure/plot2.png")
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
@@ -139,21 +102,6 @@ plot(steps_pday_av, type="l", main="Av. number of steps per day", xlab="Day inde
 
 ```r
 # Indices could be turned into days themselves, but it's not the most important part here
-dev.copy(png, "figure/plot3.png")
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
 ```
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
@@ -206,24 +154,6 @@ hist(steps_pday_total, breaks=8, col="aliceblue", xlab="Number",
 ```
 
 ![](PA1_template_files/figure-html/plot4-1.png) 
-
-```r
-dev.copy(png, "figure/plot4.png")
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
 Histogram is more peaked comparing to the previous one. It's not surprising since we plugged in a lot of mean values, and more observations are now concentrated around the center of the distrubution.
 
 ```r
@@ -281,26 +211,12 @@ mytime<- strptime(sprintf("%04d", act1$interval), format="%H%M")
 act1$time<- mytime
 act1<- data.frame(act1)
 
-library(lattice)
-xyplot(steps~interval | wd, data=act1, layout=c(2,1), type="l", ylab="Number", xlab="interval", main="Average number of steps grouped by weekdays")
+library(ggplot2)
+p<- ggplot(act1, aes(mytime, steps))
+p + geom_line()+theme_bw()+facet_grid(.~wd)+
+theme(axis.text.x = element_blank())+
+ylab("Number")+ xlab("Time interval")+
+ggtitle("Average number of steps grouped by weekday")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-10-1.png) 
-
-```r
-dev.copy(png, "figure/plot5.png")
-```
-
-```
-## png 
-##   3
-```
-
-```r
-dev.off()
-```
-
-```
-## png 
-##   2
-```
+![](PA1_template_files/figure-html/plot5-1.png) 
